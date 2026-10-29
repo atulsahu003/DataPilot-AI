@@ -1,0 +1,2257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DataPilot-AI — Intelligent data cleaning and analytics dashboard">
+    <title>DataPilot-AI | Data Analytics Studio</title>
+
+    <style>
+        :root {
+            --bg: #0b1020;
+            --panel: #121a2e;
+            --panel-light: #18233b;
+            --border: #26334d;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --primary: #818cf8;
+            --primary-dark: #6366f1;
+            --success: #34d399;
+            --danger: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .app {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 28px 24px 48px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            color: white;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        h1, h2, h3, p {
+            margin-top: 0;
+        }
+
+        .brand h1 {
+            margin-bottom: 3px;
+            font-size: 21px;
+        }
+
+        .brand p {
+            margin-bottom: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .hero {
+            padding: 42px 0 30px;
+        }
+
+        .eyebrow {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero h2 {
+            margin: 12px 0;
+            font-size: clamp(28px, 5vw, 43px);
+            letter-spacing: -1.5px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            padding: 22px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--panel);
+            min-width: 0;
+        }
+
+        .card-icon {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            background: var(--panel-light);
+            font-size: 21px;
+        }
+
+        .card h3 {
+            margin-bottom: 9px;
+            font-size: 17px;
+        }
+
+        .card p {
+            margin-bottom: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .workspace {
+            padding: 26px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--panel);
+        }
+
+        .section-heading {
+            margin-bottom: 20px;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 8px;
+            font-size: 21px;
+        }
+
+        .section-heading p {
+            margin-bottom: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .upload-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 220px;
+            padding: 25px;
+            border: 1px dashed #475569;
+            border-radius: 16px;
+            background: #0e1629;
+            text-align: center;
+        }
+
+        .upload-icon {
+            margin-bottom: 14px;
+            font-size: 38px;
+        }
+
+        .upload-area h3 {
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        .upload-area p {
+            margin-bottom: 18px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 43px;
+            padding: 11px 19px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--primary-dark);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, opacity 0.2s;
+        }
+
+        .button:hover {
+            background: #4f46e5;
+        }
+
+        .button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .button-secondary {
+            background: #26334d;
+            border: 1px solid #475569;
+        }
+
+        .button-secondary:hover {
+            background: #334155;
+        }
+
+        .file-info {
+            margin-top: 16px;
+            color: var(--success);
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .file-info.error {
+            color: var(--danger);
+        }
+
+        .notice {
+            margin-top: 20px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .result-section {
+            margin-top: 28px;
+        }
+
+        .result-section[hidden] {
+            display: none;
+        }
+
+        .stat-value {
+            margin: 8px 0 0 !important;
+            color: var(--text) !important;
+            font-size: 28px !important;
+            font-weight: 700;
+        }
+
+        .column-details {
+            display: grid;
+            gap: 10px;
+        }
+
+        .column-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #0e1629;
+            font-size: 13px;
+        }
+
+        .column-name {
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .column-meta {
+            color: var(--muted);
+            overflow-wrap: anywhere;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .actions .button {
+            flex: 0 1 auto;
+        }
+
+        .summary-section {
+            margin-top: 28px;
+        }
+
+        .summary-section[hidden] {
+            display: none;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .summary-item {
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #0e1629;
+        }
+
+        .summary-item h3 {
+            margin-bottom: 14px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 10px 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .summary-line strong {
+            color: var(--text);
+        }
+
+        footer {
+            padding-top: 28px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 760px) {
+            .app {
+                padding: 20px 15px 35px;
+            }
+
+            .grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                align-items: flex-start;
+            }
+
+            .status {
+                font-size: 11px;
+            }
+
+            .workspace {
+                padding: 18px;
+            }
+
+            .actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .actions .button {
+                width: 100%;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>d
+    </head>
+
+<body>
+    <div class="app">
+        <header>
+            <div class="brand">
+                <div class="brand-icon">D</div>
+                <div>
+                    <h1>DataPilot-AI</h1>
+                    <p>Intelligent Data Analytics Studio</p>
+                </div>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                <span>API Connected</span>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="eyebrow">Your data, understood</div>
+                <h2>Turn raw data into<br>meaningful insights.</h2>
+                <p>
+                    Upload your CSV dataset, inspect its quality, remove
+                    duplicates, handle missing values, and download a
+                    cleaned dataset using DataPilot-AI.
+                </p>
+            </section>
+
+            <section class="grid">
+                <article class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Data Profiling</h3>
+                    <p>
+                        Explore dataset dimensions, column types,
+                        missing values, and duplicate records.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon">🧹</div>
+                    <h3>Smart Cleaning</h3>
+                    <p>
+                        Remove duplicate rows and fill missing numeric
+                        or categorical values.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <div class="card-icon">📈</div>
+                    <h3>Cleaning Summary</h3>
+                    <p>
+                        Compare your dataset before and after cleaning
+                        to understand the changes.
+                    </p>
+                </article>
+            </section>
+
+            <section class="workspace">
+                <div class="section-heading">
+                    <h2>Start with your dataset</h2>
+                    <p>
+                        Select a CSV file to analyze and clean.
+                        Maximum supported file size: 5 MB.
+                    </p>
+                </div>
+
+                <div class="upload-area">
+                    <div class="upload-icon">📂</div>
+                    <h3>Upload your CSV file</h3>
+                    <p>Choose a .csv file from your computer.</p>
+
+                    <input
+                        type="file"
+                        id="csvFile"
+                        accept=".csv,text/csv"
+                        hidden
+                    >
+
+                    <button
+                        class="button"
+                        id="chooseFileButton"
+                        type="button"
+                    >
+                        Choose CSV file
+                    </button>
+
+                    <div
+                        class="file-info"
+                        id="fileInfo"
+                        aria-live="polite"
+                    ></div>
+                </div>
+
+                <div class="notice">
+                    <strong>How it works:</strong>
+                    Upload a CSV to view its profile. You can then
+                    clean the dataset and download the processed file.
+                </div>
+
+                <section id="resultSection" class="result-section" hidden>
+                    <div class="section-heading">
+                        <h2>Dataset Profile</h2>
+                        <p>Your uploaded dataset's analysis results.</p>
+                    </div>
+                    
+<div class="card" style="margin-bottom: 20px;">
+    <h3>Data Quality Score</h3>
+    <p
+        class="stat-value"
+        id="qualityScore"
+        aria-live="polite"
+    >—</p>
+    <p id="qualityDescription">
+        Upload a CSV file to calculate its quality score.
+    </p>
+</div>
+
+
+                    <div class="grid">
+                        <article class="card">
+                            <h3>Total Rows</h3>
+                            <p class="stat-value" id="rowCount">—</p>
+                        </article>
+
+                        <article class="card">
+                            <h3>Total Columns</h3>
+                            <p class="stat-value" id="columnCount">—</p>
+                        </article>
+
+                        <article class="card">
+                            <h3>Duplicate Rows</h3>
+                            <p class="stat-value" id="duplicateCount">—</p>
+                        </article>
+                    </div>
+
+                    <div class="card">
+                        <h3>Column Details</h3>
+                        <div class="column-details" id="columnDetails"></div>
+                    </div>
+
+                    <div class="actions">
+                        <button
+                            class="button"
+                            id="cleanDownloadButton"
+                            type="button"
+                        >
+                            Clean My Data &amp; Download CSV
+                        </button>
+
+                        <button
+                            class="button button-secondary"
+                            id="summaryButton"
+                            type="button"
+                        >
+                            View Cleaning Summary
+                        </button>
+                    
+                    <button
+                        class="button button-secondary"
+                        id="validateDataButton"
+                        type="button"
+                    >
+                        Validate My Data
+                    </button>
+                    <button
+                        class="button button-secondary"
+                        id="edaButton"
+                        type="button"
+                    >
+                        Analyze My Data
+                    </button>
+                                    </div>
+
+
+                    <div
+                        class="file-info"
+                        id="cleaningInfo"
+                        aria-live="polite"
+                    ></div>
+                    
+                    <section
+                        class="summary-section"
+                        id="validationSection"
+                        hidden
+                    >
+                        <div class="section-heading">
+                            <h2>Data Validation Results</h2>
+                            <p>Review suspicious values detected in your dataset.</p>
+                        </div>
+
+                        <div class="card">
+                            <h3 id="validationStatus">Validation status</h3>
+                            <p id="validationDetails" aria-live="polite"></p>
+                            <div id="validationIssues" class="column-details"></div>
+                        </div>
+                    </section>
+
+<section
+    class="summary-section"
+    id="edaSection"
+    hidden
+>
+    <div class="section-heading">
+        <h2>Exploratory Data Analysis</h2>
+        <p>Explore statistics, missing values, categories, and correlations in your dataset.</p>
+    </div>
+
+    <div class="card">
+        <h3>Dataset Overview</h3>
+        <div id="edaOverview" class="column-details"></div>
+    </div>
+
+    <div class="card">
+        <h3>Numerical Statistics</h3>
+        <div id="edaNumerical" class="column-details"></div>
+        
+<div class="card">
+    <h3>Numerical Data Distribution</h3>
+    <p>Visualize the distribution of a numerical column.</p>
+    
+<label for="edaNumericSelect">Choose numerical column:</label>
+<select id="edaNumericSelect">
+    <option value="">Select a column</option>
+</select>
+
+
+    <div style="position: relative; height: 300px; width: 100%;">
+        <canvas id="edaHistogram"></canvas>
+    </div>
+</div>
+
+    </div>
+
+    <div class="card">
+        <h3>Missing Values</h3>
+        <div id="edaMissing" class="column-details"></div>
+    </div>
+    
+<div class="card">
+    <h3>Invalid Values</h3>
+    <p>
+        Values that could not be interpreted as numbers
+        in numeric or mixed-type columns.
+    </p>
+    <div id="edaInvalidValues" class="column-details"></div>
+</div>
+
+
+    <div class="card">
+        <h3>Categorical Frequencies</h3>
+        <div id="edaCategorical" class="column-details"></div>
+        
+<div class="card">
+    <h3>Categorical Bar Chart</h3>
+    <p>Select a categorical column to compare its value frequencies.</p>
+
+    <label for="edaCategorySelect">Choose column:</label>
+    <select id="edaCategorySelect">
+        <option value="">Select a column</option>
+    </select>
+
+    <div style="position: relative; height: 300px; width: 100%; margin-top: 16px;">
+        <canvas id="edaCategoryChart"></canvas>
+    </div>
+</div>
+
+    </div>
+
+    <div class="card">
+        <h3>Correlation Matrix</h3>
+        <div id="edaCorrelation" class="column-details"></div>
+        
+<div style="margin-top: 20px;">
+    <h3>Correlation Heatmap</h3>
+    <p>Visualize relationships between numerical columns.</p>
+
+    <div style="position: relative; height: 350px; width: 100%;">
+        <canvas id="edaHeatmap"></canvas>
+    </div>
+</div>
+
+    </div>
+</section>
+
+
+                    <section
+                        class="summary-section"
+                        id="summarySection"
+                        hidden
+                    >
+                        <div class="section-heading">
+                            <h2>Cleaning Summary</h2>
+                            <p>Compare the dataset before and after cleaning.</p>
+                        </div>
+                        
+<div class="summary-grid quality-comparison">
+    <article class="summary-item">
+        <h3>Original Quality Score</h3>
+        <p class="stat-value" id="originalQualityScore">—</p>
+        <p id="originalQualityDetails">
+            Original dataset completeness.
+        </p>
+    </article>
+
+    <article class="summary-item">
+        <h3>Cleaned Quality Score</h3>
+        <p class="stat-value" id="cleanedQualityScore">—</p>
+        <p id="cleanedQualityDetails">
+            Cleaned dataset completeness.
+        </p>
+    </article>
+</div>
+
+
+                        <div class="summary-grid">
+                            <article class="summary-item">
+                                <h3>Before Cleaning</h3>
+                                <div id="beforeSummary"></div>
+                            </article>
+
+                            <article class="summary-item">
+                                <h3>After Cleaning</h3>
+                                <div id="afterSummary"></div>
+                            </article>
+                        </div>
+
+                        <div class="card" style="margin-top: 18px;">
+                            <h3>Cleaning Results</h3>
+                            <div id="changesSummary"></div>
+                        </div>
+                    </section>
+                </section>
+            </section>
+            
+            <!-- AI-Powered Natural Language Query -->
+            <section class="workspace" id="aiQuerySection" style="margin-top: 28px;">
+                <div class="section-heading">
+                    <h2>Ask Your Data</h2>
+                    <p>
+                        Ask questions in plain English. Gemini will generate
+                        a SQL query and retrieve results from your PostgreSQL data.
+                    </p>
+                </div>
+                
+<label for="datasetSelect" style="display: block; margin-bottom: 10px;">
+    Select dataset
+</label>
+
+<select
+    id="datasetSelect"
+    style="width: 100%; padding: 14px; margin-bottom: 20px; border: 1px solid var(--border); border-radius: 12px; background: #0e1629; color: var(--text); font: inherit;"
+    required
+>
+    <option value="">Loading datasets...</option>
+</select>
+
+
+                <label for="dataQuestion" style="display: block; margin-bottom: 10px;">
+                    Your question
+                </label>
+
+                <textarea
+                    id="dataQuestion"
+                    rows="3"
+                    maxlength="1000"
+                    placeholder="Example: Which city has the highest total sales?"
+                    style="width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: #0e1629; color: var(--text); font: inherit; resize: vertical;"
+                ></textarea>
+
+                <div class="actions">
+                    <button class="button" id="askDataButton" type="button">
+                        Ask AI
+                    </button>
+
+                    <button class="button button-secondary" id="clearQueryButton" type="button">
+                        Clear
+                    </button>
+                </div>
+
+                <p id="queryStatus" class="file-info" aria-live="polite"></p>
+
+                <section id="queryResultSection" class="summary-section" hidden>
+                    <div class="card">
+                        <h3>Generated SQL</h3>
+                        <pre id="generatedSql" style="white-space: pre-wrap; overflow-wrap: anywhere; color: var(--success);"></pre>
+                    </div>
+
+                    <div class="card" style="margin-top: 18px;">
+                        <h3>Query Results</h3>
+                        <p id="queryResultCount" class="column-meta"></p>
+
+                        <div style="overflow-x: auto;">
+                            <table id="queryResultsTable" class="data-table" style="width: 100%; border-collapse: collapse;"></table>
+                        </div>
+                    </div>
+                    
+                    <div class="card" id="queryChartCard" style="margin-top: 18px;" hidden>
+                        <h3>Visual Insights</h3>
+                        <p class="column-meta">
+                            Automatically generated chart from your query results.
+                        </p>
+                        <div style="position: relative; width: 100%; height: 320px;">
+                            <canvas id="queryResultsChart"></canvas>
+                        </div>
+                    </div>
+
+                </section>
+            </section>
+
+        </main>
+
+        <footer>
+            DataPilot-AI · AI-Powered Data Analytics Platform
+        </footer>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://127.0.0.1:8000";
+        
+        const dataQuestion = document.getElementById("dataQuestion");
+        const datasetSelect = document.getElementById("datasetSelect");
+        const askDataButton = document.getElementById("askDataButton");
+        const clearQueryButton = document.getElementById("clearQueryButton");
+        const queryStatus = document.getElementById("queryStatus");
+        const queryResultSection = document.getElementById("queryResultSection");
+        const generatedSql = document.getElementById("generatedSql");
+        const queryResultCount = document.getElementById("queryResultCount");
+        const queryResultsTable = document.getElementById("queryResultsTable");
+        
+        const queryChartCard = document.getElementById("queryChartCard");
+        const queryResultsChart = document.getElementById("queryResultsChart");
+
+        let queryResultsChartInstance = null;
+        
+async function loadDatasets() {
+    datasetSelect.innerHTML = '<option value="">Loading datasets...</option>';
+    datasetSelect.disabled = true;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/datasets`);
+        const data = await readApiResponse(response);
+
+        datasetSelect.replaceChildren();
+
+        if (!Array.isArray(data.datasets) || data.datasets.length === 0) {
+            datasetSelect.add(new Option("No datasets available", ""));
+            queryStatus.textContent = "Please store a CSV in PostgreSQL first.";
+            return;
+        }
+
+        datasetSelect.add(new Option("Choose a dataset", ""));
+
+        data.datasets.forEach((dataset) => {
+            const option = new Option(
+                `${dataset.table_name} (${dataset.column_count} columns)`,
+                dataset.table_name
+            );
+
+            datasetSelect.add(option);
+        });
+    } catch (error) {
+        datasetSelect.replaceChildren(
+            new Option("Unable to load datasets", "")
+        );
+
+        queryStatus.textContent =
+            `Could not load datasets: ${error.message || "API connection failed."}`;
+        queryStatus.classList.add("error");
+    } finally {
+        datasetSelect.disabled = datasetSelect.options.length <= 1;
+    }
+}
+
+loadDatasets();
+
+        
+        function renderQueryResultsChart(columns, rows) {
+            if (queryResultsChartInstance) {
+                queryResultsChartInstance.destroy();
+                queryResultsChartInstance = null;
+            }
+
+            queryChartCard.hidden = true;
+
+            if (!Array.isArray(columns) || !Array.isArray(rows) || rows.length === 0) {
+                return;
+            }
+
+            // Find a numeric result column for chart values.
+            const numericColumnIndex = columns.findIndex((column, index) =>
+                rows.some((row) =>
+                    row[index] !== null &&
+                    row[index] !== "" &&
+                    Number.isFinite(Number(row[index]))
+                ) &&
+                rows.every((row) =>
+                    row[index] === null ||
+                    row[index] === "" ||
+                    Number.isFinite(Number(row[index]))
+                )
+            );
+
+            if (numericColumnIndex === -1) {
+                return;
+            }
+
+            // Prefer a non-numeric column for category labels.
+            const labelColumnIndex = columns.findIndex((column, index) =>
+                index !== numericColumnIndex &&
+                rows.some((row) =>
+                    row[index] !== null &&
+                    row[index] !== ""
+                ) &&
+                rows.every((row) =>
+                    row[index] === null ||
+                    row[index] === "" ||
+                    !Number.isFinite(Number(row[index]))
+                )
+            );
+
+            if (labelColumnIndex === -1) {
+                return;
+            }
+
+            const labels = rows.map((row, index) => {
+                const value = row[labelColumnIndex];
+                return value === null || value === ""
+                    ? `Row ${index + 1}`
+                    : String(value);
+            });
+
+            const values = rows.map((row) =>
+                Number(row[numericColumnIndex] ?? 0)
+            );
+
+            queryResultsChartInstance = new Chart(queryResultsChart, {
+                type: "bar",
+                data: {
+                    labels,
+                    datasets: [{
+                        label: columns[numericColumnIndex],
+                        data: values,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: "#f1f5f9"
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: "#cbd5e1"
+                            },
+                            grid: {
+                                color: "rgba(148, 163, 184, 0.12)"
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: "#cbd5e1"
+                            },
+                            grid: {
+                                color: "rgba(148, 163, 184, 0.12)"
+                            }
+                        }
+                    }
+                }
+            });
+
+            queryChartCard.hidden = false;
+            
+            queryResultsChartInstance.resize();
+            queryResultsChartInstance.update();
+
+        }
+
+
+
+
+        const csvFile = document.getElementById("csvFile");
+        const chooseFileButton =
+            document.getElementById("chooseFileButton");
+        const fileInfo = document.getElementById("fileInfo");
+        const edaButton = document.getElementById("edaButton");
+        const edaSection = document.getElementById("edaSection");
+
+        const edaOverview = document.getElementById("edaOverview");
+        const edaNumerical = document.getElementById("edaNumerical");
+        const edaMissing = document.getElementById("edaMissing");
+        
+        const edaInvalidValues = document.getElementById("edaInvalidValues");
+
+        const edaCategorical = document.getElementById("edaCategorical");
+        
+        const edaHistogram = document.getElementById("edaHistogram");
+        const edaNumericSelect = document.getElementById("edaNumericSelect");
+        const edaCategorySelect = document.getElementById("edaCategorySelect");
+        
+        const edaHeatmap = document.getElementById("edaHeatmap");
+
+        const resultSection = document.getElementById("resultSection");
+        const rowCount = document.getElementById("rowCount");
+        const columnCount = document.getElementById("columnCount");
+        const duplicateCount = document.getElementById("duplicateCount");
+        const qualityScore = document.getElementById("qualityScore");
+        const qualityDescription = document.getElementById("qualityDescription");
+        
+        const originalQualityScore =
+            document.getElementById("originalQualityScore");
+
+        const cleanedQualityScore =
+            document.getElementById("cleanedQualityScore");
+
+        const originalQualityDetails =
+            document.getElementById("originalQualityDetails");
+
+        const cleanedQualityDetails =
+            document.getElementById("cleanedQualityDetails");
+
+        const columnDetails = document.getElementById("columnDetails");
+
+        const cleanDownloadButton =
+            document.getElementById("cleanDownloadButton");
+        const summaryButton = document.getElementById("summaryButton");
+
+        const validateDataButton =
+            document.getElementById("validateDataButton");
+        const cleaningInfo = document.getElementById("cleaningInfo");
+
+        const summarySection = document.getElementById("summarySection");
+        const beforeSummary = document.getElementById("beforeSummary");
+        const afterSummary = document.getElementById("afterSummary");
+        const changesSummary = document.getElementById("changesSummary");
+        const validationSection =
+            document.getElementById("validationSection");
+
+        const validationStatus =
+            document.getElementById("validationStatus");
+
+        const validationDetails =
+            document.getElementById("validationDetails");
+
+        const validationIssues =
+            document.getElementById("validationIssues");
+
+        let selectedCsvFile = null;
+
+        function setFileMessage(message, isError = false) {
+            fileInfo.textContent = message;
+            fileInfo.classList.toggle("error", isError);
+        }
+
+        function setCleaningMessage(message, isError = false) {
+            cleaningInfo.textContent = message;
+            cleaningInfo.classList.toggle("error", isError);
+        }
+
+        function appendSummaryLine(container, label, value) {
+            const line = document.createElement("div");
+            line.className = "summary-line";
+
+            const labelElement = document.createElement("span");
+            labelElement.textContent = label;
+
+            const valueElement = document.createElement("strong");
+            valueElement.textContent = String(value);
+
+            line.append(labelElement, valueElement);
+            container.appendChild(line);
+        }
+
+        function renderSummary(container, summary) {
+            container.replaceChildren();
+
+            appendSummaryLine(container, "Rows", summary.row_count);
+            appendSummaryLine(container, "Columns", summary.column_count);
+            appendSummaryLine(
+                container,
+                "Duplicate rows",
+                summary.duplicate_rows
+            );
+            appendSummaryLine(
+                container,
+                "Missing values",
+                summary.missing_values
+            );
+        }
+
+        async function readApiResponse(response) {
+            const contentType = response.headers.get("content-type") || "";
+
+            if (contentType.includes("application/json")) {
+                return await response.json();
+            }
+
+            return {};
+        }
+
+        chooseFileButton.addEventListener("click", () => {
+            csvFile.click();
+        });
+
+        csvFile.addEventListener("change", async () => {
+            const file = csvFile.files[0];
+
+            if (!file) {
+                selectedCsvFile = null;
+                setFileMessage("");
+                resultSection.hidden = true;
+                return;
+            }
+
+            if (!file.name.toLowerCase().endsWith(".csv")) {
+                selectedCsvFile = null;
+                setFileMessage("Please select a CSV file.", true);
+                csvFile.value = "";
+                resultSection.hidden = true;
+                return;
+            }
+
+            if (file.size === 0) {
+                selectedCsvFile = null;
+                setFileMessage("The selected file is empty.", true);
+                csvFile.value = "";
+                resultSection.hidden = true;
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                selectedCsvFile = null;
+                setFileMessage(
+                    "File is too large. Maximum size is 5 MB.",
+                    true
+                );
+                csvFile.value = "";
+                resultSection.hidden = true;
+                return;
+            }
+
+            selectedCsvFile = file;
+            resultSection.hidden = true;
+            summarySection.hidden = true;
+            setCleaningMessage("");
+            setFileMessage(`Uploading ${file.name}...`);
+            chooseFileButton.disabled = true;
+
+            try {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                const response = await fetch(
+                    `${API_BASE_URL}/upload-csv`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                const data = await readApiResponse(response);
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.detail || "CSV upload failed."
+                    );
+                }
+
+                
+                // Store the uploaded CSV in PostgreSQL.
+                const storageFormData = new FormData();
+                storageFormData.append("file", file);
+
+                const storageResponse = await fetch(
+                    `${API_BASE_URL}/store-csv`,
+                    {
+                        method: "POST",
+                        body: storageFormData
+                    }
+                );
+
+                const storageData = await readApiResponse(
+                    storageResponse
+                );
+
+                if (!storageResponse.ok) {
+                    throw new Error(
+                        storageData.detail ||
+                        "CSV was analyzed but could not be stored in PostgreSQL."
+                    );
+                }
+
+                // Refresh the dataset dropdown after successful storage.
+                await loadDatasets();
+
+
+                rowCount.textContent = data.row_count;
+                columnCount.textContent = data.column_count;
+                duplicateCount.textContent = data.duplicate_rows;
+                
+const totalCells = data.row_count * data.column_count;
+
+const totalMissingValues = Object.values(
+    data.missing_values
+).reduce((total, count) => total + count, 0);
+
+const score = totalCells > 0
+    ? ((totalCells - totalMissingValues) / totalCells) * 100
+    : 0;
+
+qualityScore.textContent = `${score.toFixed(2)}%`;
+
+qualityDescription.textContent =
+    `${totalMissingValues} missing cell(s) out of ${totalCells} total cells. ` +
+    `${data.duplicate_rows} duplicate row(s) detected.`;
+
+
+                columnDetails.replaceChildren();
+
+                data.columns.forEach((column) => {
+                    const row = document.createElement("div");
+                    row.className = "column-row";
+
+                    const name = document.createElement("span");
+                    name.className = "column-name";
+                    name.textContent = column;
+
+                    const dataType = data.data_types[column] ?? "unknown";
+                    const missing = data.missing_values[column] ?? 0;
+
+                    const metadata = document.createElement("span");
+                    metadata.className = "column-meta";
+                    metadata.textContent =
+                        `Type: ${dataType} · Missing: ${missing}`;
+
+                    row.append(name, metadata);
+                    columnDetails.appendChild(row);
+                });
+
+                resultSection.hidden = false;
+                setFileMessage(`Successfully analyzed: ${data.filename}`);
+
+            } catch (error) {
+                selectedCsvFile = null;
+                setFileMessage(
+                    `Error: ${error.message || "Unable to connect to the API."}`,
+                    true
+                );
+                resultSection.hidden = true;
+
+            } finally {
+                chooseFileButton.disabled = false;
+            }
+        });
+
+        cleanDownloadButton.addEventListener("click", async () => {
+            if (!selectedCsvFile) {
+                setCleaningMessage(
+                    "Please select a CSV file first.",
+                    true
+                );
+                return;
+            }
+
+            cleanDownloadButton.disabled = true;
+            summaryButton.disabled = true;
+            setCleaningMessage("Cleaning your dataset...");
+
+            try {
+                const formData = new FormData();
+                formData.append("file", selectedCsvFile);
+
+                const response = await fetch(
+                    `${API_BASE_URL}/clean-csv`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                if (!response.ok) {
+                    const errorData = await readApiResponse(response);
+                    throw new Error(
+                        errorData.detail || "Unable to clean the CSV."
+                    );
+                }
+
+                const blob = await response.blob();
+
+                const contentDisposition =
+                    response.headers.get("content-disposition") || "";
+
+                const filenameMatch =
+                    contentDisposition.match(/filename="?([^";]+)"?/i);
+
+                const filename = filenameMatch
+                    ? filenameMatch[1]
+                    : `cleaned_${selectedCsvFile.name}`;
+
+                const downloadUrl = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+
+                link.href = downloadUrl;
+                link.download = filename;
+
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                URL.revokeObjectURL(downloadUrl);
+
+                setCleaningMessage(
+                    `Cleaning successful. Downloaded: ${filename}`
+                );
+
+            } catch (error) {
+                setCleaningMessage(
+                    `Error: ${error.message || "Unable to clean the CSV."}`,
+                    true
+                );
+
+            } finally {
+                cleanDownloadButton.disabled = false;
+                summaryButton.disabled = false;
+            }
+        });
+
+        summaryButton.addEventListener("click", async () => {
+            if (!selectedCsvFile) {
+                setCleaningMessage(
+                    "Please select a CSV file first.",
+                    true
+                );
+                return;
+            }
+
+            summaryButton.disabled = true;
+            cleanDownloadButton.disabled = true;
+            summarySection.hidden = true;
+            setCleaningMessage("Generating cleaning summary...");
+
+            try {
+                const formData = new FormData();
+                formData.append("file", selectedCsvFile);
+
+                const response = await fetch(
+                    `${API_BASE_URL}/cleaning-summary`,
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                const data = await readApiResponse(response);
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.detail || "Unable to generate the summary."
+                    );
+                }
+
+                renderSummary(
+                    beforeSummary,
+                    data.before_cleaning
+                );
+
+                renderSummary(
+                    afterSummary,
+                    data.after_cleaning
+                );
+                
+function calculateQualityScore(summary) {
+    const totalCells = summary.row_count * summary.column_count;
+    const missingCells = summary.missing_values;
+
+    if (totalCells === 0) {
+        return 0;
+    }
+
+    return ((totalCells - missingCells) / totalCells) * 100;
+}
+
+const originalScore = calculateQualityScore(data.before_cleaning);
+const cleanedScore = calculateQualityScore(data.after_cleaning);
+
+originalQualityScore.textContent = `${originalScore.toFixed(2)}%`;
+cleanedQualityScore.textContent = `${cleanedScore.toFixed(2)}%`;
+
+originalQualityDetails.textContent =
+    `${data.before_cleaning.missing_values} missing cell(s) in ` +
+    `${data.before_cleaning.row_count * data.before_cleaning.column_count} total cells.`;
+
+cleanedQualityDetails.textContent =
+    `${data.after_cleaning.missing_values} missing cell(s) in ` +
+    `${data.after_cleaning.row_count * data.after_cleaning.column_count} total cells.`;
+
+
+                changesSummary.replaceChildren();
+
+                appendSummaryLine(
+                    changesSummary,
+                    "Rows removed",
+                    data.rows_removed
+                );
+
+                appendSummaryLine(
+                    changesSummary,
+                    "Duplicates removed",
+                    data.duplicates_removed
+                );
+
+                appendSummaryLine(
+                    changesSummary,
+                    "Reduction in missing-value count",
+                    data.missing_values_filled
+                );
+
+                summarySection.hidden = false;
+                setCleaningMessage("Cleaning summary generated successfully.");
+
+            } catch (error) {
+                setCleaningMessage(
+                    `Error: ${error.message || "Unable to generate the summary."}`,
+                    true
+                );
+
+            } finally {
+                summaryButton.disabled = false;
+                cleanDownloadButton.disabled = false;
+            }
+        });
+        
+validateDataButton.addEventListener("click", async () => {
+    if (!selectedCsvFile) {
+        setCleaningMessage("Please select a CSV file first.", true);
+        return;
+    }
+
+    validateDataButton.disabled = true;
+    cleanDownloadButton.disabled = true;
+    summaryButton.disabled = true;
+    validationSection.hidden = true;
+    setCleaningMessage("Validating your dataset...");
+
+    try {
+        const formData = new FormData();
+        formData.append("file", selectedCsvFile);
+
+        const response = await fetch(
+            `${API_BASE_URL}/validate-csv`,
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const data = await readApiResponse(response);
+
+        if (!response.ok) {
+            throw new Error(
+                data.detail || "Unable to validate the CSV."
+            );
+        }
+
+        validationIssues.replaceChildren();
+
+        if (data.valid) {
+            validationStatus.textContent = "✓ No validation issues found";
+        } else {
+            validationStatus.textContent =
+                `⚠ ${data.issue_count} validation issue(s) found`;
+        }
+
+        validationDetails.textContent = data.valid
+            ? "Your dataset passed the current age validation checks."
+            : "Review the following values before using your dataset.";
+
+        data.issues.forEach((issue) => {
+            const row = document.createElement("div");
+            row.className = "column-row";
+
+            const details = document.createElement("div");
+
+            const title = document.createElement("div");
+            title.className = "column-name";
+            title.textContent =
+                `Row ${issue.row} · ${issue.column}`;
+
+            const description = document.createElement("div");
+            description.className = "column-meta";
+            description.textContent =
+                `Value: ${issue.value} · ${issue.issue}`;
+
+            details.append(title, description);
+            row.appendChild(details);
+            validationIssues.appendChild(row);
+        });
+
+        validationSection.hidden = false;
+
+        setCleaningMessage(
+            data.valid
+                ? "Validation completed. No issues found."
+                : `Validation completed. Found ${data.issue_count} issue(s).`
+        );
+
+    } catch (error) {
+        setCleaningMessage(
+            `Error: ${error.message || "Unable to validate the CSV."}`,
+            true
+        );
+    } finally {
+        validateDataButton.disabled = false;
+        cleanDownloadButton.disabled = false;
+        summaryButton.disabled = false;
+    }
+});
+
+edaButton.addEventListener("click", async () => {
+    if (!selectedCsvFile) {
+        setCleaningMessage("Please select a CSV file first.", true);
+        return;
+    }
+
+    edaButton.disabled = true;
+    cleanDownloadButton.disabled = true;
+    summaryButton.disabled = true;
+    validateDataButton.disabled = true;
+
+    edaSection.hidden = true;
+    setCleaningMessage("Analyzing your dataset...");
+
+    try {
+        const formData = new FormData();
+        formData.append("file", selectedCsvFile);
+
+        const response = await fetch(`${API_BASE_URL}/eda`, {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.detail || "Unable to analyze the CSV.");
+        }
+
+        // Dataset overview
+        edaOverview.replaceChildren();
+
+        const overviewText = document.createElement("p");
+        overviewText.textContent =
+            `Rows: ${data.row_count} | Columns: ${data.column_count}`;
+
+        edaOverview.appendChild(overviewText);
+
+        const columnsText = document.createElement("p");
+        columnsText.textContent =
+            `Column names: ${data.columns.join(", ")}`;
+
+        edaOverview.appendChild(columnsText);
+
+        // Numerical statistics
+        edaNumerical.replaceChildren();
+
+        const numericalEntries = Object.entries(
+            data.numerical_summary || {}
+        );
+
+        if (numericalEntries.length === 0) {
+            edaNumerical.textContent = "No numerical columns found.";
+        } else {
+            numericalEntries.forEach(([column, stats]) => {
+                const card = document.createElement("div");
+                card.className = "column-card";
+
+                const heading = document.createElement("h4");
+                heading.textContent = column;
+                card.appendChild(heading);
+
+                Object.entries(stats).forEach(([key, value]) => {
+                    const line = document.createElement("p");
+                    line.textContent =
+                        `${key.replaceAll("_", " ")}: ${value ?? "N/A"}`;
+                    card.appendChild(line);
+                });
+
+                edaNumerical.appendChild(card);
+            });
+        }
+
+        // Missing values
+        edaMissing.replaceChildren();
+
+        Object.entries(data.missing_values || {}).forEach(
+            ([column, count]) => {
+                const line = document.createElement("p");
+                line.textContent = `${column}: ${count} missing value(s)`;
+                edaMissing.appendChild(line);
+            }
+        );
+        
+        // Invalid values in numeric or mixed-type columns
+        edaInvalidValues.replaceChildren();
+
+        const invalidEntries = Object.entries(
+            data.invalid_values || {}
+        );
+
+        if (invalidEntries.length === 0) {
+            edaInvalidValues.textContent =
+                "No invalid numeric values found.";
+        } else {
+            invalidEntries.forEach(([column, values]) => {
+                const card = document.createElement("div");
+                card.className = "column-card";
+
+                const heading = document.createElement("h4");
+                heading.textContent = column;
+                card.appendChild(heading);
+
+                Object.entries(values).forEach(([value, count]) => {
+                    const line = document.createElement("p");
+                    line.textContent = `${value}: ${count} invalid value(s)`;
+                    card.appendChild(line);
+                });
+
+                edaInvalidValues.appendChild(card);
+            });
+        }
+
+
+        // Categorical frequencies
+        edaCategorical.replaceChildren();
+
+        const categoricalEntries = Object.entries(
+            data.categorical_summary || {}
+        );
+
+        if (categoricalEntries.length === 0) {
+            edaCategorical.textContent =
+                "No categorical columns found.";
+        } else {
+            categoricalEntries.forEach(([column, frequencies]) => {
+                const card = document.createElement("div");
+                card.className = "column-card";
+
+                const heading = document.createElement("h4");
+                heading.textContent = column;
+                card.appendChild(heading);
+
+                Object.entries(frequencies).forEach(([value, count]) => {
+                    const line = document.createElement("p");
+                    line.textContent = `${value}: ${count}`;
+                    card.appendChild(line);
+                });
+
+                edaCategorical.appendChild(card);
+            });
+        }
+        
+        
+        // Numerical data histogram with column selector
+        if (window.edaHistogramChart) {
+            window.edaHistogramChart.destroy();
+            window.edaHistogramChart = null;
+        }
+
+        edaNumericSelect.replaceChildren();
+
+        const numericDefaultOption = document.createElement("option");
+        numericDefaultOption.value = "";
+        numericDefaultOption.textContent = "Select a column";
+        edaNumericSelect.appendChild(numericDefaultOption);
+
+        const numericColumns = Object.keys(
+            data.numerical_summary || {}
+        );
+
+        numericColumns.forEach((column) => {
+            const option = document.createElement("option");
+            option.value = column;
+            option.textContent = column;
+            edaNumericSelect.appendChild(option);
+        });
+
+        function renderHistogram(column) {
+            if (window.edaHistogramChart) {
+                window.edaHistogramChart.destroy();
+                window.edaHistogramChart = null;
+            }
+
+            if (!column) {
+                return;
+            }
+
+            const csvText = selectedCsvFile
+                ? null
+                : "";
+
+            if (!selectedCsvFile) {
+                return;
+            }
+
+            selectedCsvFile.text().then((text) => {
+                const rows = text.trim().split(/\r?\n/);
+
+                if (rows.length < 2) {
+                    return;
+                }
+
+                const parseCsvRow = (line) => {
+                    const values = [];
+                    let value = "";
+                    let inQuotes = false;
+
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+
+                        if (char === '"') {
+                            if (inQuotes && line[i + 1] === '"') {
+                                value += '"';
+                                i++;
+                            } else {
+                                inQuotes = !inQuotes;
+                            }
+                        } else if (char === "," && !inQuotes) {
+                            values.push(value);
+                            value = "";
+                        } else {
+                            value += char;
+                        }
+                    }
+
+                    values.push(value);
+                    return values;
+                };
+
+                const headers = parseCsvRow(rows[0]).map(
+                    (header) => header.trim()
+                );
+
+                const columnIndex = headers.indexOf(column);
+
+                if (columnIndex === -1) {
+                    return;
+                }
+
+                const values = rows.slice(1)
+                    .filter((row) => row.trim() !== "")
+                    .map((row) => parseCsvRow(row)[columnIndex])
+                    .map((value) => Number(value))
+                    .filter((value) => Number.isFinite(value));
+
+                if (values.length === 0) {
+                    return;
+                }
+
+                const minValue = Math.min(...values);
+                const maxValue = Math.max(...values);
+
+                const binCount = Math.min(
+                    10,
+                    Math.max(1, Math.ceil(Math.sqrt(values.length)))
+                );
+
+                const binWidth = maxValue === minValue
+                    ? 1
+                    : (maxValue - minValue) / binCount;
+
+                const bins = Array.from(
+                    { length: binCount },
+                    (_, index) => ({
+                        label: maxValue === minValue
+                            ? String(minValue)
+                            : `${(minValue + index * binWidth).toFixed(2)}–${(minValue + (index + 1) * binWidth).toFixed(2)}`,
+                        count: 0,
+                    })
+                );
+
+                values.forEach((value) => {
+                    const index = maxValue === minValue
+                        ? 0
+                        : Math.min(
+                            binCount - 1,
+                            Math.floor((value - minValue) / binWidth)
+                        );
+
+                    bins[index].count++;
+                });
+
+                window.edaHistogramChart = new Chart(
+                    edaHistogram,
+                    {
+                        type: "bar",
+                        data: {
+                            labels: bins.map((bin) => bin.label),
+                            datasets: [{
+                                label: `Frequency of ${column}`,
+                                data: bins.map((bin) => bin.count),
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: column,
+                                    },
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        precision: 0,
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: "Frequency",
+                                    },
+                                },
+                            },
+                        },
+                    }
+                );
+            });
+        }
+
+        edaNumericSelect.onchange = () => {
+            renderHistogram(edaNumericSelect.value);
+        };
+
+        if (numericColumns.length > 0) {
+            edaNumericSelect.value = numericColumns[0];
+            renderHistogram(numericColumns[0]);
+        }
+        
+        // Categorical bar chart with column selector
+        if (window.edaCategoryChartInstance) {
+            window.edaCategoryChartInstance.destroy();
+            window.edaCategoryChartInstance = null;
+        }
+
+        edaCategorySelect.replaceChildren();
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select a column";
+        edaCategorySelect.appendChild(defaultOption);
+
+        const categoryColumns = Object.keys(
+            data.categorical_summary || {}
+        );
+
+        categoryColumns.forEach((column) => {
+            const option = document.createElement("option");
+            option.value = column;
+            option.textContent = column;
+            edaCategorySelect.appendChild(option);
+        });
+
+        function renderCategoryChart(column) {
+            if (window.edaCategoryChartInstance) {
+                window.edaCategoryChartInstance.destroy();
+                window.edaCategoryChartInstance = null;
+            }
+
+            if (!column || !data.categorical_summary[column]) {
+                return;
+            }
+
+            const frequencies = data.categorical_summary[column];
+            const labels = Object.keys(frequencies);
+            const counts = Object.values(frequencies);
+
+            window.edaCategoryChartInstance = new Chart(
+                edaCategoryChart,
+                {
+                    type: "bar",
+                    data: {
+                        labels,
+                        datasets: [{
+                            label: `Frequency of ${column}`,
+                            data: counts,
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: column,
+                                },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0,
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Frequency",
+                                },
+                            },
+                        },
+                    },
+                }
+            );
+        }
+
+        edaCategorySelect.onchange = () => {
+            renderCategoryChart(edaCategorySelect.value);
+        };
+
+        if (categoryColumns.length > 0) {
+            edaCategorySelect.value = categoryColumns[0];
+            renderCategoryChart(categoryColumns[0]);
+        }
+
+
+
+        // Correlation matrix
+        
+        // Correlation heatmap
+        if (window.edaHeatmapChart) {
+            window.edaHeatmapChart.destroy();
+            window.edaHeatmapChart = null;
+        }
+
+        edaHeatmap.replaceChildren();
+
+        const correlationMatrix = data.correlation_matrix || {};
+        const heatmapColumns = Object.keys(correlationMatrix);
+
+        if (heatmapColumns.length === 0) {
+            edaHeatmap.parentElement.textContent =
+                "No numerical correlation data available.";
+        } else {
+            const heatmapData = [];
+
+            heatmapColumns.forEach((rowColumn, rowIndex) => {
+                heatmapColumns.forEach((column, columnIndex) => {
+                    const value = correlationMatrix[rowColumn][column];
+
+                    if (value !== null && Number.isFinite(value)) {
+                        heatmapData.push({
+                            x: columnIndex,
+                            y: rowIndex,
+                            v: value,
+                        });
+                    }
+                });
+            });
+
+            const canvasContext = edaHeatmap.getContext("2d");
+
+            const cellWidth = 45;
+            const cellHeight = 45;
+
+            edaHeatmap.width = Math.max(
+                300,
+                heatmapColumns.length * cellWidth
+            );
+            edaHeatmap.height = Math.max(
+                250,
+                heatmapColumns.length * cellHeight
+            );
+
+            const chartWidth = edaHeatmap.width;
+            const chartHeight = edaHeatmap.height;
+
+            const marginLeft = 90;
+            const marginTop = 25;
+
+            const availableWidth = chartWidth - marginLeft - 10;
+            const availableHeight = chartHeight - marginTop - 20;
+
+            const actualCellWidth =
+                availableWidth / heatmapColumns.length;
+            const actualCellHeight =
+                availableHeight / heatmapColumns.length;
+
+            heatmapData.forEach((point) => {
+                const intensity = Math.min(1, Math.abs(point.v));
+                const red = Math.round(40 + intensity * 180);
+                const green = Math.round(70 + (1 - intensity) * 100);
+                const blue = Math.round(200 - intensity * 150);
+
+                const x = marginLeft + point.x * actualCellWidth;
+                const y = marginTop + point.y * actualCellHeight;
+
+                canvasContext.fillStyle =
+                    `rgb(${red}, ${green}, ${blue})`;
+
+                canvasContext.fillRect(
+                    x,
+                    y,
+                    actualCellWidth - 2,
+                    actualCellHeight - 2
+                );
+
+                canvasContext.fillStyle = "#ffffff";
+                canvasContext.font = "12px Arial";
+                canvasContext.textAlign = "center";
+
+                canvasContext.fillText(
+                    point.v.toFixed(2),
+                    x + actualCellWidth / 2,
+                    y + actualCellHeight / 2 + 4
+                );
+            });
+
+            canvasContext.fillStyle = "#ffffff";
+            canvasContext.font = "12px Arial";
+            canvasContext.textAlign = "right";
+
+            heatmapColumns.forEach((column, index) => {
+                const y =
+                    marginTop + index * actualCellHeight +
+                    actualCellHeight / 2 + 4;
+
+                canvasContext.fillText(
+                    column,
+                    marginLeft - 8,
+                    y
+                );
+            });
+
+            canvasContext.textAlign = "center";
+
+            heatmapColumns.forEach((column, index) => {
+                const x =
+                    marginLeft + index * actualCellWidth +
+                    actualCellWidth / 2;
+
+                canvasContext.save();
+                canvasContext.translate(x, marginTop - 5);
+                canvasContext.rotate(-Math.PI / 4);
+                canvasContext.fillText(column, 0, 0);
+                canvasContext.restore();
+            });
+        }
+
+        edaCorrelation.replaceChildren();
+
+        const correlationEntries = Object.entries(
+            data.correlation_matrix || {}
+        );
+
+        if (correlationEntries.length === 0) {
+            edaCorrelation.textContent =
+                "No numerical correlations available.";
+        } else {
+            const table = document.createElement("table");
+            table.className = "data-table";
+
+            const headerRow = document.createElement("tr");
+            const firstHeader = document.createElement("th");
+            firstHeader.textContent = "Column";
+            headerRow.appendChild(firstHeader);
+
+            const correlationColumns = correlationEntries.map(
+                ([column]) => column
+            );
+
+            correlationColumns.forEach((column) => {
+                const th = document.createElement("th");
+                th.textContent = column;
+                headerRow.appendChild(th);
+            });
+
+            table.appendChild(headerRow);
+
+            correlationEntries.forEach(([column, values]) => {
+                const row = document.createElement("tr");
+
+                const nameCell = document.createElement("td");
+                nameCell.textContent = column;
+                row.appendChild(nameCell);
+
+                correlationColumns.forEach((otherColumn) => {
+                    const cell = document.createElement("td");
+                    const value = values[otherColumn];
+
+                    cell.textContent =
+                        value == null ? "N/A" : Number(value).toFixed(3);
+
+                    row.appendChild(cell);
+                });
+
+                table.appendChild(row);
+            });
+
+            edaCorrelation.appendChild(table);
+        }
+
+        edaSection.hidden = false;
+        edaSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+
+        setCleaningMessage(
+            "EDA completed successfully."
+        );
+
+    } catch (error) {
+        setCleaningMessage(
+            `Error: ${error.message || "Unable to analyze the CSV."}`,
+            true
+        );
+    } finally {
+        edaButton.disabled = false;
+        cleanDownloadButton.disabled = false;
+        summaryButton.disabled = false;
+        validateDataButton.disabled = false;
+    }
+});
+
+        askDataButton.addEventListener("click", async () => {
+            const question = dataQuestion.value.trim();
+            const datasetName = datasetSelect.value;
+
+            if (!datasetName) {
+                queryStatus.textContent = "Please select a dataset first.";
+                queryStatus.classList.add("error");
+                return;
+            }
+
+            if (question.length < 3) {
+                queryStatus.textContent = "Please enter a question with at least 3 characters.";
+                queryStatus.classList.add("error");
+                return;
+            }
+
+            askDataButton.disabled = true;
+            queryResultSection.hidden = true;
+            queryStatus.classList.remove("error");
+            queryStatus.textContent = "Asking Gemini and querying PostgreSQL...";
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/query-data`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        question,
+                        dataset_name: datasetName
+                    })
+                });
+
+                const data = await readApiResponse(response);
+
+                if (!response.ok) {
+                    throw new Error(data.detail || "Unable to answer your question.");
+                }
+
+                generatedSql.textContent = data.sql || "SQL not provided.";
+
+                queryResultCount.textContent =
+                    `${data.row_count} row(s) returned`;
+
+                queryResultsTable.replaceChildren();
+                
+            if (queryResultsChartInstance) {
+                queryResultsChartInstance.destroy();
+                queryResultsChartInstance = null;
+            }
+
+            queryChartCard.hidden = true;
+
+
+                const headerRow = document.createElement("tr");
+
+                (data.columns || []).forEach((column) => {
+                    const th = document.createElement("th");
+                    th.textContent = column;
+                    th.style.cssText =
+                        "padding: 12px; text-align: left; border-bottom: 1px solid var(--border);";
+                    headerRow.appendChild(th);
+                });
+
+                const thead = document.createElement("thead");
+                thead.appendChild(headerRow);
+                queryResultsTable.appendChild(thead);
+
+                const tbody = document.createElement("tbody");
+
+                (data.rows || []).forEach((row) => {
+                    const tr = document.createElement("tr");
+
+                    row.forEach((value) => {
+                        const td = document.createElement("td");
+                        td.textContent = value == null ? "NULL" : String(value);
+                        td.style.cssText =
+                            "padding: 12px; border-bottom: 1px solid var(--border);";
+                        tr.appendChild(td);
+                    });
+
+                    tbody.appendChild(tr);
+                });
+
+                queryResultsTable.appendChild(tbody);
+                queryResultSection.hidden = false;
+                renderQueryResultsChart(data.columns || [], data.rows || []);
+
+            
+                queryStatus.textContent = "Query completed successfully.";
+
+                queryResultSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            } catch (error) {
+                queryStatus.textContent =
+                    `Error: ${error.message || "Unable to connect to the API."}`;
+                queryStatus.classList.add("error");
+            } finally {
+                askDataButton.disabled = false;
+            }
+        });
+
+        clearQueryButton.addEventListener("click", () => {
+            dataQuestion.value = "";
+            queryStatus.textContent = "";
+            queryStatus.classList.remove("error");
+            queryResultSection.hidden = true;
+            generatedSql.textContent = "";
+            queryResultCount.textContent = "";
+            queryResultsTable.replaceChildren();
+        });
+
+        dataQuestion.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+                askDataButton.click();
+            }
+        });
+
+
+    </script>
+</body>
+</html>
