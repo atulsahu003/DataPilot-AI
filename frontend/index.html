@@ -398,7 +398,7 @@
             }
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>d
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
 <body>
@@ -818,7 +818,8 @@
     </div>
 
     <script>
-        const API_BASE_URL = "http://127.0.0.1:8000";
+        const API_BASE_URL =
+            window.DATAPILOT_API_URL || "http://127.0.0.1:8000";
         
         const dataQuestion = document.getElementById("dataQuestion");
         const datasetSelect = document.getElementById("datasetSelect");
