@@ -818,10 +818,11 @@
     </div>
 
     <script>
-        window.DATAPILOT_API_URL = "https://datapilot-ai-anaw.onrender.com";
-        
         const API_BASE_URL =
-            window.DATAPILOT_API_URL || "http://127.0.0.1:8000";
+            window.location.hostname === "127.0.0.1" ||
+            window.location.hostname === "localhost"
+            ? "http://127.0.0.1:8000"
+            : "https://datapilot-ai-anaw.onrender.com";
         
         const dataQuestion = document.getElementById("dataQuestion");
         const datasetSelect = document.getElementById("datasetSelect");

@@ -19,7 +19,10 @@ from app.services.data_validation import validate_dataframe
 from fastapi.responses import StreamingResponse
 from app.services.cleaning_summary import generate_cleaning_summary
 from app.database.csv_storage import store_dataframe
-from app.database.dataset_registry import list_registered_datasets
+from app.database.dataset_registry import (
+    initialize_dataset_registry,
+    list_registered_datasets,
+)
 
 from pydantic import BaseModel, Field
 
@@ -66,6 +69,11 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+def startup_event():
+    initialize_dataset_registry()
+    logger.info("Dataset registry initialized successfully")
 
 @app.get("/")
 def home():
