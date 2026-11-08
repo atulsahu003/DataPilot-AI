@@ -1,146 +1,196 @@
-﻿
-# DataPilot-AI 🚀
+﻿# 🚀 DataPilot-AI
 
-**An AI-Powered Data Analytics Platform**
+### Intelligent AI-Powered Data Analytics Studio
 
-DataPilot-AI is a Python-based data analytics application that allows users to upload CSV files, inspect data quality, clean datasets, explore statistical summaries, and ask questions about uploaded data using natural language.
+**Transform raw CSV data into meaningful insights using AI, Python, and PostgreSQL.**
 
-The application combines a FastAPI backend, a browser-based frontend, PostgreSQL storage, and a Gemini-powered SQL assistant.
+DataPilot-AI is an AI-powered data analytics platform that simplifies the process of uploading, profiling, cleaning, validating, and analyzing datasets. It also allows users to interact with their stored data using natural language through a Gemini-powered SQL assistant.
 
-## ✨ Features
+🌐 **Live Application:** https://datapilot-ai-frontend-a123.onrender.com
 
-### 1. CSV Upload and Profiling
-- Upload CSV files through the web interface.
-- Validate file format, encoding, and data content.
-- Generate data profiling summaries.
-- Enforce a 5 MB upload limit on the relevant upload endpoints.
+⚙️ **Backend API:** https://datapilot-ai-anaw.onrender.com
 
-### 2. Data Cleaning
-- Remove duplicate rows.
-- Fill missing numerical values using median imputation.
-- Fill missing categorical or text values using mode imputation.
-- Review before-and-after cleaning statistics.
-- Download cleaned CSV data.
+📖 **API Documentation:** https://datapilot-ai-anaw.onrender.com/docs
 
-### 3. Data Validation
-- Identify missing and invalid values.
-- Validate age-related data when applicable.
-- Review validation results through the API and frontend.
+---
 
-### 4. Exploratory Data Analysis
-- Generate numerical summaries.
-- Inspect categorical value frequencies.
-- Explore relationships between numerical variables.
-- View charts and correlation visualizations.
+## ✨ Key Features
 
-### 5. PostgreSQL Integration
-- Store uploaded datasets as PostgreSQL tables.
-- Maintain a registry of uploaded datasets.
-- Retrieve registered datasets and their metadata.
-- Select a dataset for subsequent SQL analysis.
+### 1. 📂 CSV Upload & Data Profiling
+- Upload CSV datasets through a browser-based interface.
+- Automatically inspect dataset dimensions.
+- Identify column names and data types.
+- Detect missing values and duplicate records.
+- Calculate a data quality score.
+- Maximum supported upload size: 5 MB.
 
-### 6. AI-Powered SQL Assistant
-- Ask questions about a selected dataset in natural language.
-- Generate SQL using Gemini through LangChain integration.
-- Use deterministic fallback queries for supported questions.
-- Validate generated queries before execution.
-- Restrict query access to the selected registered dataset.
-- Return query results as structured data for the frontend.
+### 2. 🧹 Intelligent Data Cleaning
+- Remove duplicate records.
+- Handle missing numerical values using median imputation.
+- Handle missing categorical and text values using mode imputation.
+- Generate cleaning summaries.
+- Download cleaned datasets as CSV files.
 
-## 🧰 Technology Stack
+### 3. ✅ Data Validation
+- Identify missing and suspicious values.
+- Detect invalid or unexpected data.
+- Generate validation reports.
+- Highlight potential data quality issues.
 
-- **Language:** Python 3.12
-- **Backend:** FastAPI, Uvicorn
-- **Data Processing:** Pandas, NumPy
-- **Database:** PostgreSQL
-- **AI Integration:** Google Gemini, LangChain Google GenAI
-- **SQL Validation:** SQLGlot
-- **Configuration:** Pydantic Settings, python-dotenv
-- **Testing:** pytest
-- **Frontend:** HTML, CSS, JavaScript
+### 4. 📊 Exploratory Data Analysis (EDA)
+- Generate statistical summaries.
+- Analyze numerical columns.
+- Explore categorical value frequencies.
+- Examine relationships between numerical variables.
+- Generate charts and visual insights.
 
-LangGraph packages are listed in the project dependencies. Multi-agent orchestration has not yet been verified as an implemented feature.
+### 5. 🗄️ PostgreSQL Integration
+- Store uploaded datasets in PostgreSQL.
+- Automatically create dataset tables.
+- Maintain a centralized dataset registry.
+- Retrieve dataset information and metadata.
+- Select stored datasets for further analysis.
+
+### 6. 🤖 AI-Powered SQL Assistant
+- Ask questions about uploaded datasets using natural language.
+- Generate SQL queries using Google Gemini.
+- Integrate Gemini through LangChain.
+- Validate generated SQL before execution.
+- Restrict queries to the selected registered dataset.
+- Display structured query results.
+- Generate visual insights from query results.
+
+---
+
+## 🛠️ Technology Stack
+
+| Category | Technologies |
+|---|---|
+| Programming Language | Python 3.12 |
+| Backend | FastAPI, Uvicorn |
+| Frontend | HTML, CSS, JavaScript |
+| Data Processing | Pandas, NumPy |
+| Database | PostgreSQL |
+| AI Integration | Google Gemini, LangChain |
+| SQL Validation | SQLGlot |
+| Configuration | Pydantic Settings, python-dotenv |
+| Testing | Pytest |
+| Deployment | Render |
+
+---
+
+## 🏗️ System Architecture
+
+```text
+                USER
+                  |
+                  v
+       Browser-Based Frontend
+           HTML / CSS / JS
+                  |
+                  v
+            FastAPI Backend
+                  |
+       +----------+-----------+
+       |          |           |
+       v          v           v
+   Pandas     PostgreSQL    Gemini AI
+  Processing   Database    SQL Assistant
+       |          |           |
+       v          v           v
+  Profiling   Dataset      SQL Generation
+  Cleaning    Registry     & Validation
+  Validation  & Storage         |
+  EDA             |             |
+       +----------+-------------+
+                  |
+                  v
+          Results & Insights
+                  |
+                  v
+               USER
+```
+
+---
 
 ## 📁 Project Structure
 
 ```text
 DataPilot-AI/
+│
 ├── app/
 │   ├── core/
 │   ├── database/
 │   ├── schemas/
 │   ├── services/
 │   └── main.py
+│
 ├── data/
+│   └── sample/
+│
 ├── docs/
 ├── frontend/
 │   └── index.html
+│
 ├── scripts/
 ├── tests/
+│
 ├── .env.example
 ├── .gitignore
 ├── README.md
 └── requirements.txt
 ```
 
-## ⚙️ Prerequisites
+---
 
-Install or prepare the following:
+## ⚙️ Installation and Setup
+
+### Prerequisites
 
 - Python 3.12
 - PostgreSQL
-- Git (optional, for version control)
-- A Google Gemini API key for AI-powered SQL generation
+- Git
+- Google Gemini API key
 
-## 🚀 Installation and Setup
-
-### 1. Clone the repository
-
-After the project is published on GitHub:
+### 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/atulsahu003/DataPilot-AI.git
 cd DataPilot-AI
 ```
 
-Alternatively, use your existing local project directory.
+### 2. Create a Virtual Environment
 
-### 2. Create and activate a virtual environment
-
-On Windows PowerShell:
+Windows PowerShell:
 
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-### 3. Install dependencies
+### 3. Install Dependencies
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-### 4. Create the PostgreSQL database
+### 4. Configure PostgreSQL
 
-Create a PostgreSQL database named `datapilot_db` using your PostgreSQL installation.
-
-For example, using `psql`:
+Create a PostgreSQL database:
 
 ```sql
 CREATE DATABASE datapilot_db;
 ```
 
-Configure the connection string using your actual PostgreSQL username, password, host, port, and database name.
+### 5. Configure Environment Variables
 
-### 5. Configure environment variables
-
-Create a local `.env` file based on `.env.example`:
+Create your `.env` file:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Set the appropriate values in `.env`:
+Configure the following variables:
 
 ```dotenv
 GOOGLE_API_KEY=your_google_gemini_api_key
@@ -150,98 +200,123 @@ APP_ENV=development
 DEBUG=true
 ```
 
-Replace the example credentials with your own values.
+Replace example credentials with your own configuration.
 
-**Never commit `.env` or expose API keys, passwords, or database credentials.** The `.env` file should remain local.
+**Important:** Never commit your `.env` file or expose API keys and database credentials.
 
-### 6. Start the backend
-
-From the project root, with the virtual environment activated:
+### 6. Start the Backend
 
 ```powershell
 python -m uvicorn app.main:app --reload
 ```
 
-The backend should be available at:
+Backend URL:
 
-- Application: http://127.0.0.1:8000
-- Interactive API documentation: http://127.0.0.1:8000/docs
-- Application health: http://127.0.0.1:8000/health
-- Database health: http://127.0.0.1:8000/db-health
+http://127.0.0.1:8000
 
-### 7. Start the frontend
+Interactive API documentation:
 
-Open a second PowerShell terminal, navigate to the project root, and activate the virtual environment if needed.
+http://127.0.0.1:8000/docs
 
-Run:
+### 7. Start the Frontend
+
+Open another PowerShell terminal and execute:
 
 ```powershell
 python -m http.server 5500 --directory frontend
 ```
 
-Open the frontend at:
+Open:
 
-http://127.0.0.1:5500/index.html
+http://127.0.0.1:5500
+
+---
 
 ## 🔌 API Endpoints
 
-| Method | Endpoint | Purpose |
+| Method | Endpoint | Description |
 |---|---|---|
-| GET | `/` | Application welcome and status |
+| GET | `/` | Application status |
 | GET | `/health` | Application health check |
-| GET | `/db-health` | Database health check |
-| GET | `/profile-sample` | Profile the configured sample CSV |
-| POST | `/upload-csv` | Upload and profile a CSV |
-| POST | `/clean-csv` | Clean a CSV and return a downloadable file |
-| POST | `/cleaning-summary` | Generate cleaning statistics |
-| POST | `/validate-csv` | Validate CSV data |
-| POST | `/eda` | Generate EDA summaries |
-| POST | `/store-csv` | Store a CSV in PostgreSQL |
+| GET | `/db-health` | Database connectivity check |
+| GET | `/profile-sample` | Profile sample dataset |
+| POST | `/upload-csv` | Upload and profile CSV |
+| POST | `/clean-csv` | Clean CSV dataset |
+| POST | `/cleaning-summary` | Generate cleaning summary |
+| POST | `/validate-csv` | Validate dataset |
+| POST | `/eda` | Perform exploratory data analysis |
+| POST | `/store-csv` | Store CSV in PostgreSQL |
 | GET | `/datasets` | List registered datasets |
-| POST | `/query-data` | Ask a question about a selected dataset |
+| POST | `/query-data` | Execute AI-powered data queries |
 
-Upload endpoints expect CSV files using multipart form data. The SQL assistant expects a question and a selected dataset name.
+For detailed request and response schemas, visit the interactive API documentation.
+
+---
 
 ## 🧪 Testing
 
-Run the automated test suite from the project root:
+Run the test suite:
 
 ```powershell
 python -m pytest -v
 ```
 
-Latest recorded result during development:
+**Latest recorded development test result:** 59 tests passed.
 
-**59 tests passed.**
+---
 
-Run the tests again after making changes to verify the current codebase.
+## 🔐 Security & Configuration
 
-## 🔐 Security Notes
+- Store sensitive configuration in environment variables.
+- Keep `.env` and virtual environment files out of Git.
+- Validate generated SQL before execution.
+- Restrict SQL queries to the selected registered dataset.
+- Use appropriate database permissions.
+- Review security and error handling before production use.
 
-- Keep API keys and database credentials in `.env`.
-- Do not commit `.env`, `.venv`, or generated cache files.
-- Use `.env.example` to document required configuration keys without real credentials.
-- The SQL assistant validates generated SQL and restricts queries to the selected registered dataset.
-- Review security, database permissions, and deployment settings before exposing the application publicly.
+---
 
-## 🛠️ Project Status
+## ☁️ Deployment
 
-Core CSV processing, cleaning, validation, EDA, PostgreSQL integration, and natural-language SQL features have been implemented and tested.
+DataPilot-AI is deployed using Render.
 
-Final end-to-end verification, documentation review, and deployment readiness checks remain part of the project completion process.
+| Component | Deployment |
+|---|---|
+| Frontend | Render Static Site |
+| Backend | Render Web Service |
+| Database | Render PostgreSQL |
 
-## 📌 Future Improvements
+**Live Links**
 
-- Verify and implement multi-agent orchestration where needed.
-- Add more analytical workflows and supported natural-language queries.
-- Improve deployment automation and production configuration.
-- Add further integration tests and user-facing error handling.
-- Enhance reporting and data export capabilities.
+- Frontend: https://datapilot-ai-frontend-a123.onrender.com
+- Backend: https://datapilot-ai-anaw.onrender.com
+- API Docs: https://datapilot-ai-anaw.onrender.com/docs
 
-## 👨‍💻 Development
+Note: The application uses Render's free services, which may experience cold-start delays. Free database availability and retention are subject to Render's current limits.
 
-This project is being developed as an AI and Data Science portfolio project.
+---
 
-Contributions, suggestions, and constructive feedback are welcome.
+## 🚧 Future Enhancements
 
+- Improve natural-language SQL capabilities.
+- Expand automated data quality checks.
+- Add more advanced visualizations.
+- Improve application monitoring and error handling.
+- Strengthen SQL security and integration testing.
+- Explore multi-agent orchestration.
 
+---
+
+## 👨‍💻 Author
+
+**Atul Sahu**
+
+GitHub: https://github.com/atulsahu003
+
+Project Repository: https://github.com/atulsahu003/DataPilot-AI
+
+---
+
+⭐ If you find this project interesting, consider giving it a star on GitHub.
+
+**DataPilot-AI — Your Data, Understood.**
